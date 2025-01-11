@@ -11,6 +11,8 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(mothedOverride("_method"));
 
+const categories = ['fruit', 'vegetable', 'dairy', 'baked products']
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/farmStand", {
     useNewUrlParser: true,
@@ -26,7 +28,7 @@ mongoose
 app.get("/products/new", async (req, res) => {
   // const products = await Product.find({});
   // res.send('CREATE PRODUCT')
-  res.render("products/new");
+  res.render("products/new", {categories});
 });
 app.get("/products", async (req, res) => {
   const { category } = req.query;
