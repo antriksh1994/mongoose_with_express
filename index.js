@@ -67,6 +67,7 @@ app.get("/products/:id/edit", async (req, res) => {
 });
 
 app.post("/products/", async (req, res) => {
+  // req.body is passed in product but in actual project inputs fields should be validated
   const newProduct = new Product(req.body);
   await newProduct.save();
   console.log(req.body);
