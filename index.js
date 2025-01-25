@@ -112,7 +112,7 @@ app.get('/farms/new', (req,res) => {
 })
 app.get("/farms/:id", async (req, res) => {
   const { id } = req.params;
-  await Farm.findById(id)
+  await Farm.findById(id).populate('products') 
     .then((farm) => {
       res.render("farms/show", { farm });
     })
@@ -143,9 +143,10 @@ app.post('/farms', async (req,res) => {
   await newFarm.save();
   res.redirect(`/farms`);
 })
-app.get('/farms/:id/products/new', (req, res) => {
+app.get('/farms/:id/products/new', async (req, res) => {
   const {id} = req.params
-  res.render('products/new', {categories, id})
+  const farm = await Farm.findById(id)
+  res.render('products/new', {categories, farm})
 })
 app.post('/farms/:id/products', async(req, res) => {
   const {id} = req.params

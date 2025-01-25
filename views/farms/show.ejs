@@ -13,6 +13,11 @@
         <li>City: <%= farm.city%></li>
         <li>Email: <%= farm.email %></li>
     </ul>
+    Products
+    <ul><% for(let product of farm.products) {%>
+        <li><%= product.name %></li>
+        <% } %>
+    </ul>
     <a href="/farms">All farms</a>
     <a href="/farms/<%=farm._id%>/products/new">Add Product</a>
     <!-- <form action="/farms/<%=farm._id%>?_method=DELETE" method="POST">

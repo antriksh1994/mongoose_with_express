@@ -6,8 +6,9 @@
     <title>Create Product</title>
 </head>
 <body>
+    <h1><%= farm.name %></h1>
     <h1>Add a Product</h1>
-    <form action="/farms/<%=id%>/products" method="post">
+    <form action="/farms/<%=farm._id%>/products" method="post">
         <label for="name">Product Name</label>
         <input type="text" name="name" placeholder="product name">
         <label for="price">Product Price</label>
@@ -18,12 +19,12 @@
                 <option value="<%=category %>"><%=category %></option>
               <% } %>
         </select>
-        <!-- <select name="category" id="">
-            <option value="fruit">fruit</option>
-            <option value="vegetable">vegetable</option>
-            <option value="dairy">dairy</option>
-        </select> -->
-        <button type="submit">Create product</button>
+        <div>
+            <button type="submit">Create product</button>
+            </div>
+            <div>
+            <a href="/farms/<%=farm._id%>">Back to farms</a>
+        </div>
     </form>
 </body>
 </html>
