@@ -106,9 +106,38 @@ app.get('/farms', async (req,res) => {
   const farms = await Farm.find({});
   res.render("farms/index", { farms});
 })
+// new should be before else express will take it as an id as /edit/id
 app.get('/farms/new', (req,res) => {
   res.render('farms/new')
 })
+app.get("/farms/:id", async (req, res) => {
+  const { id } = req.params;
+  await Farm.findById(id)
+    .then((farm) => {
+      res.render("farms/show", { farm });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+app.get("/farms/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  await Farm.findById(id)
+    .then((farm) => {
+      res.render("farms/edit", { farm });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+app.put("/farms/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findByIdAndUpdate(id, req.body, {
+    runValidators: true,
+    new: true,
+  });
+  res.redirect(`/farms/${farm._id}`);
+});
 app.post('/farms', async (req,res) => {
   const newFarm = new Farm(req.body);
   await newFarm.save();
