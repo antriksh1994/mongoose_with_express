@@ -143,6 +143,20 @@ app.post('/farms', async (req,res) => {
   await newFarm.save();
   res.redirect(`/farms`);
 })
+app.get('/farms/:id/products/new', (req, res) => {
+  const {id} = req.params
+  res.render('products/new', {categories, id})
+})
+app.post('/farms/:id/products', async(req, res) => {
+  const {id} = req.params
+  const farm = await Farm.findById(id)
+  const product = new Product(req.body);
+  farm.products.push(product)
+  product.farm = farm
+  await product.save();
+  await farm.save();
+  res.redirect(`/farms/${id}`)
+})
 app.listen(3000, () => {
   console.log("APP IS LISTENING ON PORT 3000!");
 });
