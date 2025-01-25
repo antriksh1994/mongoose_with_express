@@ -1,8 +1,14 @@
+// connection
+// schema
+// model
+// save
+
 const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const Product = require("./models/product");
+const Farm = require("./models/farm");
 const mothedOverride = require("method-override");
 
 // app.use(req, res) runs on every request
@@ -31,6 +37,7 @@ app.get("/products/new", async (req, res) => {
   res.render("products/new", {categories});
 });
 app.get("/products", async (req, res) => {
+  console.log('===req==', req)
   const { category } = req.query;
   if (category) {
     const products = await Product.find({ category });
@@ -94,6 +101,19 @@ app.put("/products/:id", async (req, res) => {
   // res.send('PUTT!!')
   res.redirect(`/products/${product._id}`);
 });
+// FARM ROUTES
+app.get('/farms', async (req,res) => {
+  const farms = await Farm.find({});
+  res.render("farms/index", { farms});
+})
+app.get('/farms/new', (req,res) => {
+  res.render('farms/new')
+})
+app.post('/farms', async (req,res) => {
+  const newFarm = new Farm(req.body);
+  await newFarm.save();
+  res.redirect(`/farms`);
+})
 app.listen(3000, () => {
   console.log("APP IS LISTENING ON PORT 3000!");
 });
