@@ -158,6 +158,16 @@ app.post('/farms/:id/products', async(req, res) => {
   await farm.save();
   res.redirect(`/farms/${id}`)
 })
+// delete and put requests cannot be made from HTML form so we use override
+app.delete("/farms/:id", async (req, res) => {
+  const { id } = req.params;
+  const farm = await Farm.findByIdAndDelete(id, req.body, {
+    runValidators: true,
+    new: true,
+  });
+  // res.send('PUTT!!')
+  res.redirect("/farms");
+});
 app.listen(3000, () => {
   console.log("APP IS LISTENING ON PORT 3000!");
 });
